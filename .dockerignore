@@ -1,0 +1,8 @@
+.git
+.next
+.env
+.env*.local
+.vercel
+node_modules
+_old
+*.zip

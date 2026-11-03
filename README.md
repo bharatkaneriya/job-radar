@@ -22,7 +22,7 @@ One Next.js app, frontend and API together:
 | Web | Next.js 16 (App Router), Tailwind 4, SWR | `app/`, `components/` |
 | API | Next.js route handlers, Mongoose, JWT in an httpOnly cookie | `app/api/`, `lib/server/` |
 | DB | MongoDB Atlas (free M0 works) | — |
-| Hosting | Vercel free tier, one project | — |
+| Hosting | Anywhere that runs Node or Docker; Vercel's free tier works | — |
 
 ## How jobs flow
 
@@ -83,6 +83,40 @@ npm test
 Free-tier limits to know: Vercel Hobby runs the cron **once a day** and functions are capped
 at 60 s here (sources are fetched in parallel to fit). Live search fills the gap between crons.
 
+## Deploy anywhere else
+
+The app isn't tied to Vercel. It needs Node 20+ (or Docker), a MongoDB it can reach and the
+variables in `.env.example`. `vercel.json` and `maxDuration` in the routes are simply ignored
+elsewhere.
+
+**Docker**
+
+```bash
+docker build -t job-radar --build-arg NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-id .
+docker run -p 3000:3000 --env-file .env job-radar
+```
+
+**Plain Node** (a VPS, Render, Railway and so on)
+
+```bash
+npm ci
+npm run build     # NEXT_PUBLIC_GOOGLE_CLIENT_ID has to be set for this step
+npm start         # with the other variables set
+```
+
+Wherever you host it:
+
+- **HTTPS is required** in production: the login cookie is `Secure`, so over plain HTTP nobody can
+  stay logged in. Put a reverse proxy (nginx, Caddy) or your host's HTTPS in front.
+- **Proxies:** the login rate limit needs a proxy in front to see real client addresses. Set
+  `TRUST_PROXY_HOPS` if there's more than one (CDN + nginx = 2).
+- **Daily job:** only Vercel reads the schedule in `vercel.json`. Elsewhere, have any scheduler call
+  the endpoint, for example with crontab:
+  `0 3 * * * curl -fsS -H "Authorization: Bearer $CRON_SECRET" https://your-site/api/cron/daily`
+- **Several instances:** the login rate limit is counted per process. Everything else lives in MongoDB.
+- **Google sign-in:** add the new site URL to *Authorized JavaScript origins*.
+- **Health check:** `GET /api/health`. **Logs:** JSON on stdout.
+
 ## Forgot password
 
 *Forgot password?* on the login page emails a 6-digit code over SMTP (`SMTP_*` in `.env`).
@@ -95,6 +129,22 @@ Three steps: email, code, new password. A code lasts 10 minutes, works once and 
 5 wrong guesses. A correct code is swapped for a one-time token (also 10 minutes) that sets the
 password. Each account can get one code a minute and 5 an hour. A successful reset logs out all
 of the account's existing sessions. The rules are in `lib/server/services/passwordReset.js`.
+
+## Logs
+
+Server code logs with [pino](https://getpino.io) through `lib/server/logger.js`: readable text in
+dev, one JSON object per line on stdout in production, which any host or log collector can read.
+`LOG_LEVEL` sets how much you get. Every API request logs its method, path, status, time and user
+id, and shares a `reqId` with any error it hit. Query strings and bodies aren't logged.
+
+```js
+import { logger } from '#server/logger.js';
+logger.warn({ source: 'remotive', err }, 'Source fetch failed');
+```
+
+Pass an error as `err` to keep its stack. Fields like `password`, `token` and `authorization` are
+masked, but only as fields, so keep secrets out of the message text. The CLI scripts in
+`scripts/` print with `console` on purpose.
 
 ## Project layout
 

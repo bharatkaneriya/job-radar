@@ -4,6 +4,8 @@ import assert from 'node:assert/strict';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { base, client, dispatch } from './helpers.js';
+import { logger } from '../lib/server/logger.js';
+import { User } from '../lib/server/models/index.js';
 
 let mongo;
 
@@ -120,6 +122,91 @@ test('cron needs the secret', async () => {
   assert.equal((await api('GET', '/cron/daily')).status, 401);
   const res = await dispatch(new Request(`${base}/cron/daily`, { headers: { authorization: 'Bearer cron-secret' } }));
   assert.equal(res.status, 200);
+});
+
+// Replaces the per-request child logger and collects everything written to it.
+function captureRequests(t) {
+  const lines = [];
+  t.mock.method(logger, 'child', (bindings) => ({
+    info: (fields, msg) => lines.push({ level: 'info', ...bindings, ...fields, msg }),
+    error: (fields, msg) => lines.push({ level: 'error', ...bindings, ...fields, msg }),
+  }));
+  return lines;
+}
+
+test('each request logs method, path, status and time, without query or body', async (t) => {
+  const lines = captureRequests(t);
+  const api = client('10.2.0.1');
+  await api('POST', '/auth/login', { email: 'nobody@example.com', password: 'very-secret-value' });
+  await api('GET', '/jobs?q=private-search');
+
+  assert.equal(lines.length, 2);
+  const [login, jobs] = lines;
+  assert.equal(login.method, 'POST');
+  assert.equal(login.path, '/api/auth/login');
+  assert.equal(login.status, 401);
+  assert.equal(typeof login.ms, 'number');
+  assert.ok(login.reqId);
+  assert.notEqual(login.reqId, jobs.reqId, 'each request gets its own id');
+  assert.equal(jobs.path, '/api/jobs');
+
+  const text = JSON.stringify(lines);
+  for (const leak of ['very-secret-value', 'nobody@example.com', 'private-search']) assert.ok(!text.includes(leak), `${leak} leaked`);
+});
+
+test('a logged-in request records the user id', async (t) => {
+  const api = client('10.2.0.2');
+  const reg = await api('POST', '/auth/register', { name: 'Logs', email: 'logs@example.com', password: 'password123' });
+  const lines = captureRequests(t);
+  await api('GET', '/auth/me');
+  assert.equal(lines[0].userId, reg.body.user.id);
+});
+
+test('an unexpected error is logged in full, but the client only sees a generic message', async (t) => {
+  const lines = captureRequests(t);
+  t.mock.method(User, 'findOne', () => {
+    throw new Error('internal database detail');
+  });
+  const res = await client('10.2.0.3')('POST', '/auth/login', { email: 'a@example.com', password: 'x' });
+  assert.equal(res.status, 500);
+  assert.equal(res.body.error, 'Something went wrong');
+
+  const [error, request] = lines;
+  assert.equal(error.level, 'error');
+  assert.equal(error.err.message, 'internal database detail');
+  assert.equal(request.status, 500);
+  assert.equal(error.reqId, request.reqId, 'the error can be traced to its request');
+});
+
+test('a client error is not logged as a failure', async (t) => {
+  const lines = captureRequests(t);
+  await client('10.2.0.4')('GET', '/jobs');
+  assert.deepEqual(lines.map((l) => [l.level, l.status]), [['info', 401]]);
+});
+
+const forgotFrom = (ip) => client(ip)('POST', '/auth/forgot-password', { email: 'nobody@example.com' });
+
+async function statusAfter21(ipFor) {
+  let last;
+  for (let i = 0; i < 21; i++) last = await forgotFrom(ipFor(i));
+  return last.status;
+}
+
+test('rate limit: a client can not dodge it by faking x-forwarded-for', async () => {
+  assert.equal(await statusAfter21((i) => `1.1.1.${i}, 10.3.0.1`), 429);
+});
+
+test('rate limit: TRUST_PROXY_HOPS finds the client behind several proxies', async (t) => {
+  process.env.TRUST_PROXY_HOPS = '2';
+  t.after(() => delete process.env.TRUST_PROXY_HOPS);
+  assert.equal(await statusAfter21((i) => `1.1.1.${i}, 10.3.0.2, 172.16.0.${i}`), 429, 'one client behind changing proxy addresses');
+  assert.equal(await statusAfter21((i) => `10.4.0.${i}, 172.16.0.1`), 200, 'different clients behind one proxy');
+});
+
+test('a request id from the host or proxy is reused in the logs', async (t) => {
+  const lines = captureRequests(t);
+  await dispatch(new Request(`${base}/jobs`, { headers: { 'x-request-id': 'proxy-id-1' } }));
+  assert.equal(lines[0].reqId, 'proxy-id-1');
 });
 
 test('bad JSON and unknown paths', async () => {

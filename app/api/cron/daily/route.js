@@ -5,7 +5,7 @@ import { matchAllUsers } from '#server/services/matchAll.js';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-// Vercel Cron calls this with "Authorization: Bearer $CRON_SECRET".
+// Any scheduler can call this with "Authorization: Bearer $CRON_SECRET"; Vercel Cron does so by itself.
 export const GET = route(async ({ req }) => {
   const secret = process.env.CRON_SECRET;
   if (!secret || req.headers.get('authorization') !== `Bearer ${secret}`) throw new HttpError(401, 'Unauthorized');

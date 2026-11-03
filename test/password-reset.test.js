@@ -6,6 +6,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 import { SMTPServer } from 'smtp-server';
 import { client } from './helpers.js';
+import { logger } from '../lib/server/logger.js';
 import { User } from '../lib/server/models/index.js';
 import { MAX_ATTEMPTS, MAX_CODES_PER_HOUR } from '../lib/server/services/passwordReset.js';
 
@@ -243,10 +244,12 @@ test('new codes per hour are limited', async () => {
 });
 
 test('when SMTP fails the user is told, and can retry straight away', async (t) => {
-  t.mock.method(console, 'error', () => {});
+  const error = t.mock.method(logger, 'error', () => {});
   const { api, email } = await account();
   process.env.SMTP_PORT = '1'; // nothing listens here
   assert.equal((await forgot(api, email)).status, 503);
+  assert.equal(error.mock.callCount(), 1, 'the failure is logged');
+  assert.ok(error.mock.calls[0].arguments[0].err, 'with its cause');
   assert.equal((await stored(email)).resetCodeHash, undefined, 'no unsent code is left behind');
 
   process.env.SMTP_PORT = String(smtpPort);
@@ -255,7 +258,7 @@ test('when SMTP fails the user is told, and can retry straight away', async (t) 
 });
 
 test('wrong SMTP credentials count as a failed send', async (t) => {
-  t.mock.method(console, 'error', () => {});
+  t.mock.method(logger, 'error', () => {});
   const { api, email } = await account();
   process.env.SMTP_PASS = 'wrong';
   assert.equal((await forgot(api, email)).status, 503);
@@ -266,7 +269,7 @@ test('without SMTP: dev prints the code, production refuses', async (t) => {
   const { api, email } = await account();
   delete process.env.SMTP_HOST;
 
-  const error = t.mock.method(console, 'error', () => {});
+  const error = t.mock.method(logger, 'error', () => {});
   const env = process.env.NODE_ENV;
   process.env.NODE_ENV = 'production';
   try {
@@ -277,7 +280,7 @@ test('without SMTP: dev prints the code, production refuses', async (t) => {
     else process.env.NODE_ENV = env;
   }
 
-  const log = t.mock.method(console, 'log', () => {});
+  const log = t.mock.method(logger, 'info', () => {});
   assert.equal((await forgot(api, email)).status, 200);
   const code = log.mock.calls.map((c) => String(c.arguments[0]).match(/reset code for .*: (\d{6})/)?.[1]).find(Boolean);
   assert.ok(code, 'code printed');

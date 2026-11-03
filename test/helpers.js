@@ -3,6 +3,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
+// Keep test output readable. The logger is created on first import, so import this file first.
+process.env.LOG_LEVEL ??= 'silent';
+
 const API_DIR = path.resolve('app/api');
 export const base = 'http://test.local/api';
 
