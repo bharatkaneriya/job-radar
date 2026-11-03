@@ -1,0 +1,29 @@
+{
+  "story": {
+    "id": "99990000",
+    "title": "Ask HN: Who is hiring? (October 2026)"
+  },
+  "item": {
+    "id": 99990000,
+    "children": [
+      {
+        "id": 99990001,
+        "author": "mira_k",
+        "created_at_i": 1790931600,
+        "text": "Ledgerline | Full-stack engineer (Laravel, React) | REMOTE (worldwide) | Contract or full-time<p>We build accounting automation for small manufacturers. Stack: Laravel 11, React, PostgreSQL. Looking for someone who has shipped ERP-style software.</p>"
+      },
+      {
+        "id": 99990002,
+        "author": "tomh",
+        "created_at_i": 1790931600,
+        "text": "Acme Robotics | Embedded C++ Engineer | ONSITE Boston<p>Firmware for arms.</p>"
+      },
+      {
+        "id": 99990003,
+        "author": "jen",
+        "created_at_i": 1791018000,
+        "text": "Pinecone Pay | Senior Backend (Node.js) | REMOTE (US only) | Full-time<p>Payments infra. Node.js, TypeScript, Postgres.</p>"
+      }
+    ]
+  }
+}

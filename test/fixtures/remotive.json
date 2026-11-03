@@ -1,0 +1,74 @@
+{
+  "job-count": 4,
+  "jobs": [
+    {
+      "id": 1001,
+      "url": "https://remotive.com/remote-jobs/software-dev/senior-laravel-developer-1001",
+      "title": "Senior Laravel Developer (Contract)",
+      "company_name": "Northwind Logistics",
+      "category": "Software Development",
+      "tags": [
+        "laravel",
+        "php",
+        "mysql",
+        "vue"
+      ],
+      "job_type": "contract",
+      "publication_date": "2026-10-21T09:00:00.000Z",
+      "candidate_required_location": "Worldwide",
+      "salary": "$45-60/hr",
+      "description": "<p>We are rebuilding our shipment tracking backend in <b>Laravel 11</b>. You will own the REST API, queue workers and MySQL schema migrations from our legacy PHP 7 app.</p><ul><li>5+ years PHP/Laravel</li><li>Experience with Horizon and Redis queues</li><li>Bonus: Livewire or Inertia</li></ul><p>3-month contract, likely extension. Async team spread across time zones.</p>"
+    },
+    {
+      "id": 1002,
+      "url": "https://remotive.com/remote-jobs/software-dev/fullstack-react-node-1002",
+      "title": "Full-Stack Engineer (React / Node.js)",
+      "company_name": "Brightleaf Health",
+      "category": "Software Development",
+      "tags": [
+        "react",
+        "node.js",
+        "typescript",
+        "postgresql"
+      ],
+      "job_type": "full_time",
+      "publication_date": "2026-10-20T09:00:00.000Z",
+      "candidate_required_location": "USA",
+      "salary": "",
+      "description": "<p>Build patient-facing dashboards with React and TypeScript on a Node.js + PostgreSQL backend. Must be legally eligible to work in the US.</p>"
+    },
+    {
+      "id": 1003,
+      "url": "https://remotive.com/remote-jobs/software-dev/shopify-developer-1003",
+      "title": "Shopify Developer — Theme & App Integrations",
+      "company_name": "Kettle & Clay",
+      "category": "Software Development",
+      "tags": [
+        "shopify",
+        "liquid",
+        "javascript"
+      ],
+      "job_type": "freelance",
+      "publication_date": "2026-10-19T09:00:00.000Z",
+      "candidate_required_location": "Worldwide",
+      "salary": "Fixed price per milestone",
+      "description": "<p>Ceramics brand moving from WooCommerce to Shopify. Need a custom Online Store 2.0 theme, a subscription app integration, and migration of 1,200 products with variants.</p><p>Freelance, project-based. Please share 2 Shopify stores you built.</p>"
+    },
+    {
+      "id": 1004,
+      "url": "https://remotive.com/remote-jobs/software-dev/senior-golang-1004",
+      "title": "Senior Golang Engineer",
+      "company_name": "Packetry",
+      "category": "Software Development",
+      "tags": [
+        "go",
+        "kubernetes"
+      ],
+      "job_type": "full_time",
+      "publication_date": "2026-10-21T09:00:00.000Z",
+      "candidate_required_location": "Europe",
+      "salary": "",
+      "description": "<p>Distributed systems in Go.</p>"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+[
+  {
+    "jobs": [
+      {
+        "id": 2001,
+        "url": "https://jobicy.com/jobs/2001-laravel-react-erp",
+        "jobTitle": "Laravel + React Developer for ERP Modules",
+        "companyName": "Tessaro Textiles",
+        "jobIndustry": [
+          "Programming"
+        ],
+        "jobType": [
+          "contract"
+        ],
+        "jobGeo": "Anywhere",
+        "jobLevel": "Senior",
+        "jobExcerpt": "Extend our ERP",
+        "jobDescription": "<p>Our in-house ERP (Laravel API, React admin) needs inventory, purchase order and production planning modules. MySQL 8. You will work with our ops manager to scope each module.</p>",
+        "pubDate": "2026-10-22 09:00:00",
+        "annualSalaryMin": "",
+        "salaryCurrency": ""
+      },
+      {
+        "id": 2002,
+        "url": "https://jobicy.com/jobs/2002-marketing-manager",
+        "jobTitle": "Growth Marketing Manager",
+        "companyName": "Loopwise",
+        "jobIndustry": [
+          "Marketing"
+        ],
+        "jobType": [
+          "full-time"
+        ],
+        "jobGeo": "Anywhere",
+        "jobLevel": "Senior",
+        "jobDescription": "<p>Own paid acquisition. Familiar with Shopify analytics.</p>",
+        "pubDate": "2026-10-20 09:00:00"
+      },
+      {
+        "id": 2003,
+        "url": "https://jobicy.com/jobs/2003-php-dev-uk",
+        "jobTitle": "PHP Developer",
+        "companyName": "Harbourline",
+        "jobIndustry": [
+          "Programming"
+        ],
+        "jobType": [
+          "full-time"
+        ],
+        "jobGeo": "UK",
+        "jobLevel": "Midweight",
+        "jobDescription": "<p>Symfony and Laravel. Must reside in the UK.</p>",
+        "pubDate": "2026-10-18 09:00:00",
+        "annualSalaryMin": 45000,
+        "annualSalaryMax": 55000,
+        "salaryCurrency": "GBP"
+      }
+    ]
+  }
+]

@@ -1,0 +1,39 @@
+[
+  {
+    "data": [
+      {
+        "slug": "fullstack-laravel-berlin-77",
+        "company_name": "Kontorwerk GmbH",
+        "title": "Fullstack Developer Laravel / Vue (m/w/d)",
+        "description": "<p>Laravel, Vue, MySQL. Hybrid in Berlin.</p>",
+        "remote": false,
+        "url": "https://www.arbeitnow.com/jobs/companies/kontorwerk/fullstack-laravel-berlin-77",
+        "tags": [
+          "laravel"
+        ],
+        "job_types": [
+          "full time"
+        ],
+        "location": "Berlin",
+        "created_at": 1792486800
+      },
+      {
+        "slug": "remote-php-api-88",
+        "company_name": "Datenhaus",
+        "title": "Remote PHP API Developer",
+        "description": "<p>Build REST APIs in Laravel for a logistics platform. Fully remote, EU timezone overlap of 3 hours.</p>",
+        "remote": true,
+        "url": "https://www.arbeitnow.com/jobs/companies/datenhaus/remote-php-api-88",
+        "tags": [
+          "php",
+          "laravel"
+        ],
+        "job_types": [
+          "contract"
+        ],
+        "location": "Remote",
+        "created_at": 1792400400
+      }
+    ]
+  }
+]

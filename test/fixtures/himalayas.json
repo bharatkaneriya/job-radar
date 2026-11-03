@@ -1,0 +1,38 @@
+[
+  {
+    "jobs": [
+      {
+        "title": "Node.js Backend Developer (Part-time)",
+        "companyName": "Quillstack",
+        "applicationLink": "https://himalayas.app/companies/quillstack/jobs/nodejs-backend",
+        "guid": "https://himalayas.app/companies/quillstack/jobs/nodejs-backend",
+        "locationRestrictions": [
+          "India",
+          "Singapore"
+        ],
+        "categories": [
+          "Backend Development"
+        ],
+        "description": "<p>Part-time, ~20 hrs/week. Node.js (NestJS), PostgreSQL, REST API design for a document automation SaaS. Overlap with IST preferred.</p>",
+        "pubDate": 1792573200,
+        "minSalary": 2500,
+        "maxSalary": 3500,
+        "currency": "USD",
+        "employmentType": "Part Time"
+      },
+      {
+        "title": "Senior React Engineer",
+        "companyName": "Fernway",
+        "applicationLink": "https://himalayas.app/companies/fernway/jobs/senior-react",
+        "guid": "https://himalayas.app/companies/fernway/jobs/senior-react",
+        "locationRestrictions": [],
+        "categories": [
+          "Frontend"
+        ],
+        "description": "<p>React, Next.js and Tailwind for a travel booking platform. Remote, worldwide.</p>",
+        "pubDate": 1792227600,
+        "employmentType": "Full Time"
+      }
+    ]
+  }
+]
