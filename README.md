@@ -73,6 +73,7 @@ npm test
    | `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | same Google client ID (optional) |
    | `ADMIN_EMAILS` | your email, so your sign-up becomes admin |
    | `CRON_SECRET` | random string (Vercel Cron sends it automatically) |
+   | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` | mail server for password reset codes |
 4. **Google sign-in** (optional): Google Cloud Console → *APIs & Services → Credentials →
    Create OAuth client ID → Web application*. Add *Authorized JavaScript origins*:
    `http://localhost:3000` and your site URL. No redirect URI is needed.
@@ -81,6 +82,19 @@ npm test
 
 Free-tier limits to know: Vercel Hobby runs the cron **once a day** and functions are capped
 at 60 s here (sources are fetched in parallel to fit). Live search fills the gap between crons.
+
+## Forgot password
+
+*Forgot password?* on the login page emails a 6-digit code over SMTP (`SMTP_*` in `.env`).
+With Gmail, use `smtp.gmail.com`, port `587` and an
+[App Password](https://myaccount.google.com/apppasswords), not your normal password.
+Without `SMTP_HOST`, local dev prints the code in the server log and production turns
+reset requests away.
+
+Three steps: email, code, new password. A code lasts 10 minutes, works once and dies after
+5 wrong guesses. A correct code is swapped for a one-time token (also 10 minutes) that sets the
+password. Each account can get one code a minute and 5 an hour. A successful reset logs out all
+of the account's existing sessions. The rules are in `lib/server/services/passwordReset.js`.
 
 ## Project layout
 

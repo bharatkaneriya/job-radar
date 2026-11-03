@@ -17,6 +17,7 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.11.4",
     "next": "^16.4.3",
+    "nodemailer": "^10.3.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "swr": "^2.5.1",
@@ -26,6 +27,7 @@
     "@tailwindcss/postcss": "^4.3.3",
     "mongodb-memory-server": "^11.3.0",
     "postcss": "^8.5.32",
+    "smtp-server": "^3.21.3",
     "tailwindcss": "^4.3.3"
   },
   "type": "module",

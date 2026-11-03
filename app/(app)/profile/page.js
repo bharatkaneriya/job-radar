@@ -45,15 +45,16 @@ function ProfileInner() {
   const router = useRouter();
   const welcome = useSearchParams().get('welcome');
   const { refresh } = useSession();
-  const { data } = useSWR('/profile', fetcher, { revalidateOnFocus: false });
+  const { data, isValidating, mutate } = useSWR('/profile', fetcher, { revalidateOnFocus: false });
   const [form, setForm] = useState(null);
   const [newSkill, setNewSkill] = useState('');
   const [msg, setMsg] = useState({});
   const [busy, setBusy] = useState(false);
 
+  // The form is only filled once, so wait for the fresh copy rather than a cached one.
   useEffect(() => {
-    if (data && !form) setForm(toForm(data.profile));
-  }, [data, form]);
+    if (data && !isValidating && !form) setForm(toForm(data.profile));
+  }, [data, isValidating, form]);
 
   if (!form) return <Spinner className="h-6 w-6 text-slate-400" />;
 
@@ -73,6 +74,7 @@ function ProfileInner() {
     setMsg({});
     try {
       const res = await api('/profile', { method: 'PUT', body: form });
+      await mutate({ ...data, profile: res.profile }, { revalidate: false });
       await refresh();
       if (welcome) return router.replace('/jobs');
       setMsg({ ok: `Saved. ${res.match.matched} matching jobs (${res.match.added} new).` });

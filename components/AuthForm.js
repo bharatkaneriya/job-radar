@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { api } from '@/lib/api';
 import { Alert } from './ui';
 import GoogleButton from './GoogleButton';
+import PasswordInput from './PasswordInput';
 
 // Only same-site paths are allowed as a post-login redirect.
 const safeNext = (n) => (n && n.startsWith('/') && !n.startsWith('//') ? n : null);
@@ -13,7 +14,8 @@ const safeNext = (n) => (n && n.startsWith('/') && !n.startsWith('//') ? n : nul
 export default function AuthForm({ mode }) {
   const signup = mode === 'signup';
   const router = useRouter();
-  const next = safeNext(useSearchParams().get('next'));
+  const params = useSearchParams();
+  const next = safeNext(params.get('next'));
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -78,10 +80,8 @@ export default function AuthForm({ mode }) {
           <label className="label" htmlFor="password">
             Password
           </label>
-          <input
+          <PasswordInput
             id="password"
-            type="password"
-            className="input"
             value={form.password}
             onChange={set('password')}
             required
@@ -89,7 +89,15 @@ export default function AuthForm({ mode }) {
             autoComplete={signup ? 'new-password' : 'current-password'}
           />
           {signup && <p className="mt-1 text-xs text-slate-500">At least 8 characters.</p>}
+          {!signup && (
+            <p className="mt-1 text-right text-xs">
+              <Link href="/forgot-password" className="font-medium text-brand-600 hover:underline">
+                Forgot password?
+              </Link>
+            </p>
+          )}
         </div>
+        {!signup && params.get('reset') && !error && <Alert kind="success">Password changed. Log in with your new password.</Alert>}
         <Alert>{error}</Alert>
         <button className="btn-primary w-full" disabled={busy}>
           {busy ? 'Please wait…' : signup ? 'Create account' : 'Log in'}
