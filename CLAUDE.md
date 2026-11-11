@@ -42,4 +42,6 @@ There is no linter or type checker configured. `dev:memory` reads `.env` too, so
 
 ## Tests
 
+`npm test` never touches `.env`'s database; each DB test file starts its own in-memory MongoDB. Browser or API checks against a running server are different: `.env` usually points at real Atlas, and the user's own `npm run dev` may be serving `localhost:3000`. If so, `dev:memory` still prints "In-memory MongoDB" and "Ready" (on port 3001), then exits with "Another next dev server is already running", while port 3000 keeps writing to Atlas. Before any request that writes, check with `Get-NetTCPConnection -LocalPort 3000 -State Listen` that the port is free, then confirm that `dev:memory` stays up on port 3000 with no "already running" in its output. Never stop a server you didn't start. Stop `dev:memory` with Ctrl+C, because a force kill leaves its `mongo-mem-*` folder (about 200 MB) in the temp directory.
+
 `test/helpers.js` provides `client(ip)` and `dispatch()`, which call route handlers directly using a router built from `app/api`, with no HTTP server. So they don't exercise Next's bundling; check that with `npm run build`. Import `helpers.js` before anything that loads the logger, since it silences logs. Rate limits count per IP within a test process, so give each test its own `client('10.x.x.x')` if it makes many limited calls.

@@ -1,0 +1,6 @@
+[
+  { "board": "acmeapp", "data": { "jobs": [
+    { "id": "6f1c0e2a-0000-4000-8000-000000000001", "title": "Senior Fullstack Engineer (Next.js)", "department": "Engineering", "team": "Product", "employmentType": "FullTime", "location": "Remote - Americas", "secondaryLocations": [{ "location": "Remote - Europe" }], "publishedAt": "2026-11-04T12:00:00.000+00:00", "isListed": true, "isRemote": true, "workplaceType": "Remote", "jobUrl": "https://jobs.ashbyhq.com/acmeapp/6f1c0e2a-0000-4000-8000-000000000001", "descriptionPlain": "Ship features across our Next.js front end and Postgres back end.", "compensation": { "compensationTierSummary": "$140K – $180K" } },
+    { "id": "6f1c0e2a-0000-4000-8000-000000000002", "title": "Account Executive", "department": "Sales", "employmentType": "FullTime", "location": "New York", "secondaryLocations": [], "publishedAt": "2026-11-04T12:00:00.000+00:00", "isListed": true, "isRemote": false, "workplaceType": "OnSite", "jobUrl": "https://jobs.ashbyhq.com/acmeapp/6f1c0e2a-0000-4000-8000-000000000002", "descriptionPlain": "Sell.", "compensation": {} }
+  ] } }
+]

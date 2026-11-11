@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import { base, client, dispatch } from './helpers.js';
 import { logger } from '../lib/server/logger.js';
 import { User } from '../lib/server/models/index.js';
+import { SOURCES } from '../lib/server/services/sources/index.js';
 
 let mongo;
 
@@ -106,7 +107,7 @@ test('admin flow and disabled users', async () => {
   assert.equal((await ann2('POST', '/auth/login', { email: 'ann@example.com', password: 'password123' })).status, 403);
 
   const sources = await admin('GET', '/admin/sources');
-  assert.equal(sources.body.items.length, 6);
+  assert.equal(sources.body.items.length, Object.keys(SOURCES).length);
   assert.ok(sources.body.items.every((s) => s.lastFetch?.ok));
   assert.equal((await admin('PUT', '/admin/sources', { remotive: { enabled: false } })).body.sources.remotive.enabled, false);
 

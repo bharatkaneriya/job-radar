@@ -1,0 +1,6 @@
+[
+  { "board": "examplecorp", "data": { "jobs": [
+    { "id": 4000001, "title": "Backend Engineer, PHP", "company_name": "ExampleCorp", "absolute_url": "https://job-boards.greenhouse.io/examplecorp/jobs/4000001", "location": { "name": "Remote, EMEA" }, "departments": [{ "name": "Engineering" }], "content": "&lt;p&gt;Scale our PHP and MySQL services.&lt;/p&gt;", "first_published": "2026-11-05T10:00:00-05:00", "updated_at": "2026-11-06T10:00:00-05:00" },
+    { "id": 4000002, "title": "Office Manager", "company_name": "ExampleCorp", "absolute_url": "https://job-boards.greenhouse.io/examplecorp/jobs/4000002", "location": { "name": "Berlin, Germany" }, "departments": [{ "name": "Operations" }], "content": "&lt;p&gt;Run our Berlin office.&lt;/p&gt;", "first_published": "2026-11-05T10:00:00-05:00" }
+  ] } }
+]

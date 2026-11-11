@@ -1,0 +1,7 @@
+[
+  [
+    { "last_updated": 1794384008, "legal": "API Terms of Service: Please link back to the URL on Remote OK and mention Remote OK as a source." },
+    { "slug": "remote-senior-laravel-developer-tidewater-1000001", "id": "1000001", "epoch": 1794261602, "date": "2026-11-09T22:00:02+00:00", "company": "Tidewater Labs", "position": "Senior Laravel Developer â\u0080\u0094 Payments", "tags": ["laravel", "php", "dev", "senior"], "description": "<p>We run a Laravel + Vue billing platform and need a senior engineer to own our Stripe integration.</p>", "location": "Worldwide", "salary_min": 70000, "salary_max": 95000, "url": "https://remoteOK.com/remote-jobs/remote-senior-laravel-developer-tidewater-1000001" },
+    { "slug": "remote-react-engineer-brightloop-1000002", "id": "1000002", "epoch": 1794175202, "date": "2026-11-08T22:00:02+00:00", "company": "Brightloop", "position": "React Engineer", "tags": ["react", "typescript", "dev"], "description": "<p>Build our customer dashboard in React and TypeScript.</p>", "location": "", "salary_min": 0, "salary_max": 0, "url": "https://remoteOK.com/remote-jobs/remote-react-engineer-brightloop-1000002" }
+  ]
+]
